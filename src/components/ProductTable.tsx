@@ -1,9 +1,17 @@
 import React from 'react';
-import { Product, ProductTableProps } from '../types/types';
+import { ProductTableProps } from '../types/types';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-const ProductTable: React.FC<ProductTableProps> = ({ products, onDelete, onDisable, onEdit, isAdmin }) => {
+const ProductTable: React.FC<ProductTableProps> = ({ products, setProducts, onEdit, isAdmin }) => {
   const getIconClass = (baseClass: string) => `${baseClass} ${isAdmin ? '' : 'disabled'}`;
+
+  const handleDelete = (name: string) => {
+    setProducts(products.filter(product => product.name !== name));
+  };
+
+  const handleDisable = (name: string) => {
+    setProducts(products.map(product => product.name === name ? { ...product, disabled: !product.disabled } : product));
+  };
 
   return (
     <table className="product-table">
@@ -27,8 +35,8 @@ const ProductTable: React.FC<ProductTableProps> = ({ products, onDelete, onDisab
             <td>{product.value}</td>
             <td style={{ color: !isAdmin ? '#808080' : undefined }}>
               <span className={getIconClass('fas fa-edit')} onClick={() => isAdmin && onEdit(product.name)}></span>
-              <span className={getIconClass('fas fa-eye')} onClick={() => isAdmin && onDisable(product.name)}></span>
-              <span className={getIconClass('fas fa-trash')} onClick={() => isAdmin && onDelete(product.name)}></span>
+              <span className={getIconClass('fas fa-eye')} onClick={() => isAdmin && handleDisable(product.name)}></span>
+              <span className={getIconClass('fas fa-trash')} onClick={() => isAdmin && handleDelete(product.name)}></span>
             </td>
           </tr>
         ))}

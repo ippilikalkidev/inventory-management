@@ -26,8 +26,7 @@ export interface Product {
   
   export interface ProductTableProps {
     products: Product[];
-    onDelete: (productName: string) => void;
-    onDisable: (productName: string) => void;
+    setProducts: (productName: Product[]) => void;
     onEdit: (productName: string) => void;
     isAdmin: boolean;
   }

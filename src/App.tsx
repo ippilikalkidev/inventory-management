@@ -47,13 +47,13 @@ const App: React.FC = () => {
     setIsEditModalOpen(true);
   };
 
-  const handleDelete = (name: string) => {
-    setProducts(products.filter(product => product.name !== name));
-  };
+  // const handleDelete = (name: string) => {
+  //   setProducts(products.filter(product => product.name !== name));
+  // };
 
-  const handleDisable = (name: string) => {
-    setProducts(products.map(product => product.name === name ? { ...product, disabled: !product.disabled } : product));
-  };
+  // const handleDisable = (name: string) => {
+  //   setProducts(products.map(product => product.name === name ? { ...product, disabled: !product.disabled } : product));
+  // };
 
   const handleModalSave = (updatedProduct: Product) => {
     setProducts(products.map(product => product.name === updatedProduct.name ? updatedProduct : product));
@@ -82,7 +82,7 @@ const App: React.FC = () => {
       {isLoading ? <Loader /> : error ? <ErrorBanner message={error} /> : (
       <>
         <StatCards statCardsData={statCardsData} />
-        <ProductTable products={products} onDelete={handleDelete} onDisable={handleDisable} onEdit={handleEdit} isAdmin={isAdmin}/>
+        <ProductTable products={products} setProducts={setProducts} onEdit={handleEdit} isAdmin={isAdmin}/>
 
         {isEditModalOpen && currentProduct && (
           <EditModal
