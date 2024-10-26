@@ -4,27 +4,38 @@ import StatCards from './components/StatCards'
 import EditModal from './components/EditModal';
 import { Product } from './types/types';
 import {StatCardsData} from './types/types';
-import './App.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import Loader from './components/Loader';
+import ErrorBanner from './components/ErrorBanner';
+import './App.css';
 
 const App: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   const [isAdmin, setIsAdmin] = useState<boolean>(true);
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [currentProduct, setCurrentProduct] = useState<Product[] | null>(null);
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchProducts = async () => {
-      const response = await fetch('https://dev-0tf0hinghgjl39z.api.raw-labs.com/inventory');
-      if (!response.ok) {
-        console.error('Failed to fetch products');
-        return;
+      try {
+        const response = await fetch('https://dev-0tf0hinghgjl39z.api.raw-labs.com/inventory');
+        if (!response.ok) {
+          throw new Error('Failed to fetch products');
+        }
+        const data: Product[] = await response.json();
+        setIsLoading(false);
+        setProducts(data);
+        setError(null);
+      } catch (error) {
+        setIsLoading(false);
+        setError('There was an error fetching the product data.');
       }
-      const data: Product[] = await response.json();
-      setProducts(data);
     };
     fetchProducts();
-  }, []);
+  }, []);  
 
 
   function toggleRole() {
@@ -57,9 +68,6 @@ const App: React.FC = () => {
     outOfStock: products.filter(product => product.quantity === 0).length,
     categories: [...new Set(products.map(product => product.category))].length,
   };
-  
-  <StatCards statCardsData={statCardsData} />
-  
 
   return (
     <div className="inventory-stats-container">
@@ -71,16 +79,19 @@ const App: React.FC = () => {
           <span className="role-label">User</span>
         </div>
       </div>
-      <StatCards statCardsData={statCardsData} />
-      <ProductTable products={products} onDelete={handleDelete} onDisable={handleDisable} onEdit={handleEdit} isAdmin={isAdmin}/>
+      {isLoading ? <Loader /> : error ? <ErrorBanner message={error} /> : (
+      <>
+        <StatCards statCardsData={statCardsData} />
+        <ProductTable products={products} onDelete={handleDelete} onDisable={handleDisable} onEdit={handleEdit} isAdmin={isAdmin}/>
 
-      {isEditModalOpen && currentProduct && (
-        <EditModal
-          product={currentProduct[0]}
-          onSave={handleModalSave}
-          onClose={closeModal}
-        />
-      )}
+        {isEditModalOpen && currentProduct && (
+          <EditModal
+            product={currentProduct[0]}
+            onSave={handleModalSave}
+            onClose={closeModal}
+          />
+        )}
+      </> )}
     </div>
   );
 }
