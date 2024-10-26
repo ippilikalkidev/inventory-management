@@ -1,38 +1,145 @@
-.App {
-  text-align: center;
+
+.inventory-stats-container {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+  padding: 20px;
+  height: 100vh;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.header {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+}
+
+.stats-summary {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  background-color: #333;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 20%;
+  color: #d9f99d;
+}
+
+.stat-icon {
+  font-size: 30px;
+}
+
+.stat-info h4 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.stat-info p {
+  margin: 0;
+  font-size: 20px;
+}
+
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #2e2e2e;
+  color: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.product-table th,
+.product-table td {
+  padding: 15px;
+  text-align: left;
+}
+
+.product-table th {
+  background-color: #444;
+  font-weight: bold;
+}
+
+.product-table tr:nth-child(even) {
+  background-color: #3a3a3a;
+}
+
+.product-table tr:nth-child(odd) {
+  background-color: #2a2a2a;
+}
+
+.product-table td span {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.role-toggle {
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  gap: 10px;
+}
+
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin: 20px;
+}
+
+.container div {
+  display: flex;
+  flex-direction: column;
+}
+
+.container label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.container input {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.modal {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+  padding: 20px;
+  width: 500px;
+  height: 300px;
+  position: relative;
+  margin: 50px auto;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.close-btn {
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+  font-weight: bold;
+  right: 25px;
+  top: 38px;
+  position: absolute;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.cancel-btn {
+  background-color: #ddd;
+  color: #333;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.save-btn {
+  color: #fff;
 }
